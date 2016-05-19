@@ -29,7 +29,8 @@ Route::get('/practice', function() {
 
 Route::get('/books', 'BookController@getIndex');
 Route::get('/books/show/{title?}', 'BookController@getShow');
-Route::get('/books/create', 'BookController@getIndex');
-Route::post('/book/create', 'BookController@postIndex');
+Route::get('/books/create', 'BookController@getCreate');
+Route::post('/books/create', 'BookController@postCreate');
 
 Route::resource('tag', 'TagController');
+
