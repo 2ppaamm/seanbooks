@@ -24,10 +24,10 @@ class CreateBooksTable extends Migration
 
             # The rest of the fields...
             $table->string('title');
-            $table->string('author');
-            $table->integer('published');
+            $table->boolean('published');
+            $table->integer('chapters');
             $table->string('cover');
-            $table->string('purchase_link');
+            $table->string('synopsis');
 
             # FYI: We're skipping the 'tags' field for now; more on that later.
 

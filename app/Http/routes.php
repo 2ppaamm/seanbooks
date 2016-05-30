@@ -27,10 +27,56 @@ Route::get('/practice', function() {
 
 });
 
-Route::get('books', 'BookController@getIndex');
-Route::get('books/show/{title?}', 'BookController@getShow');
+/*
+* Book Routes
+*/
 Route::get('books/create', 'BookController@getCreate');
 Route::post('books/create', 'BookController@postCreate');
+Route::get('books/add', 'BookController@getAdd');
+Route::post('books/add', 'BookController@postAdd');
+
+/*
+* Navigation Bar
+*/
+Route::get('about', 'BookController@getAbout');
+Route::get('index', 'BookController@getIndex');
 
 Route::resource('tag', 'TagController');
 
+
+/*
+* Login routes
+*/
+# Show login form
+Route::get('/login', 'Auth\AuthController@getLogin');
+
+# Process login form
+Route::post('/login', 'Auth\AuthController@postLogin');
+
+# Process logout
+Route::get('/logout', 'Auth\AuthController@logout');
+
+# Show registration form
+Route::get('/register', 'Auth\AuthController@getRegister');
+
+# Process registration form
+Route::post('/register', 'Auth\AuthController@postRegister');
+
+# Process logout
+Route::get('/logout', 'Auth\AuthController@logout');
+
+Route::get('/show-login-status', function() {
+
+    # You may access the authenticated user via the Auth facade
+    $user = Auth::user();
+
+    if($user) {
+        echo 'You are logged in.';
+        dump($user->toArray());
+    } else {
+        echo 'You are not logged in.';
+    }
+
+    return;
+
+});

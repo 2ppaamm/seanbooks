@@ -9,36 +9,28 @@ class BooksTableSeeder extends Seeder
      *
      * @return void
      */
-	public function run()
-	{
+    public function run()
+    {	
+	    $user_id = \Foobooks\User::where('name','=','test')->pluck('id')->first();
 	    DB::table('books')->insert([
-	        'created_at' => Carbon\Carbon::now()->toDateTimeString(),
-	        'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
-	        'title' => 'The Great Gatsby',
-	        'author' => 'F. Scott Fitzgerald',
-	        'published' => 1925,
-	        'cover' => 'http://img2.imagesbn.com/p/9780743273565_p0_v4_s114x166.JPG',
-	        'purchase_link' => 'http://www.barnesandnoble.com/w/the-great-gatsby-francis-scott-fitzgerald/1116668135?ean=9780743273565',
+	    'created_at' => Carbon\Carbon::now()->toDateTimeString(),
+	    'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
+	    'title' => 'The Test',
+	    'user_id' => $user_id,
+	    'published' => true,
+	    'cover' => 'http://img2.imagesbn.com/p/9780743273565_p0_v4_s114x166.JPG',
+	    'chapters' => 12,
 	    ]);
 
+	    $user_id = \Foobooks\User::where('name','=','testa')->pluck('id')->first();
 	    DB::table('books')->insert([
-	        'created_at' => Carbon\Carbon::now()->toDateTimeString(),
-	        'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
-	        'title' => 'The Bell Jar',
-	        'author' => 'Sylvia Plath',
-	        'published' => 1963,
-	        'cover' => 'http://img1.imagesbn.com/p/9780061148514_p0_v2_s114x166.JPG',
-	        'purchase_link' => 'http://www.barnesandnoble.com/w/bell-jar-sylvia-plath/1100550703?ean=9780061148514',
+	    'created_at' => Carbon\Carbon::now()->toDateTimeString(),
+	    'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
+	    'title' => 'The Tester',
+	    'user_id' => $user_id,
+	    'published' => false,
+	    'cover' => 'http://img1.imagesbn.com/p/9780061148514_p0_v2_s114x166.JPG',
+	    'page_count' => 1234,
 	    ]);
-
-	    DB::table('books')->insert([
-	        'created_at' => Carbon\Carbon::now()->toDateTimeString(),
-	        'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
-	        'title' => 'I Know Why the Caged Bird Sings',
-	        'author' => 'Maya Angelou',
-	        'published' => 1969,
-	        'cover' => 'http://img1.imagesbn.com/p/9780345514400_p0_v1_s114x166.JPG',
-	        'purchase_link' => 'http://www.barnesandnoble.com/w/i-know-why-the-caged-bird-sings-maya-angelou/1100392955?ean=9780345514400',
-	    ]);
-	}
+    }
 }

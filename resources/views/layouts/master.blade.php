@@ -16,7 +16,33 @@
     <!-- Link to Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 
-    <link href="css/homepage.css" rel="stylesheet">
+    <!-- <link href="css/homepage.css" rel="stylesheet"> -->
+    <style>
+      #learn{
+        background-color: #123456;
+        border-color: #FFFFFF;
+      }
+
+      #heading, #header{
+        color: #FFFFFF;
+      }
+
+      .jumbotron{
+        background-image: url("http://www.planwallpaper.com/static/images/518169-backgrounds.jpg");
+      }
+
+      .btn-default, .btn, .btn-success{
+        background-color: #123456;
+        border-color: #FFFFFF;
+        color: #FFFFFF;
+      }
+
+      #avatar{
+        border-radius: 1000px;
+      }
+
+
+    </style>
 
   </head>
 
@@ -31,26 +57,32 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.php">    
-          <?php
-            echo 'Hello Friend! You are visiting ';
-            echo $_SERVER['SERVER_NAME'];
+          <a class="navbar-brand" href="/index">    
+          @if(Auth::check())
+            <?php
+              echo 'Hello, ';
+              echo Auth::user()->name;
+              echo '!';
             ?>
+          @else
+            <?php
+              echo 'Hello, Guest!'
+            ?>
+          @endif
           </a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="about.php">About <span class="sr-only">(current)</span></a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Books<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="book.php">Book1</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="book.php">Book2</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="book.php">Book3</a></li>
-          </ul>
-        </li>
+        @if(Auth::check())
+          <li><a href="/about">About <span class="sr-only">(current)</span></a></li>
+          <li><a href="/books/create">Create New Book<span class="sr-only">(current)</span></a></li>
+          <li><a href="/books/add">Add New Chapter<span class="sr-only">(current)</span></a></li>
+          <li><a href="/logout">Logout<span class="sr-only">(current)</span></a></li>
+        @else
+          <li><a href="/about">About <span class="sr-only">(current)</span></a></li>
+          <li><a href="/login">Login<span class="sr-only">(current)</span></a></li>
+          <li><a href="/register">Register<span class="sr-only">(current)</span></a></li>
+        @endif
       </ul>
           <form name = "searchForm" class="navbar-form navbar-right" onsubmit="return validateForm()" method="post">
             <div class="form-group">
