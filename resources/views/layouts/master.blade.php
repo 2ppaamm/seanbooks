@@ -41,6 +41,14 @@
         border-radius: 1000px;
       }
 
+      #cover{
+        height: auto;
+        width: 360px;
+        border-color:#000000;
+        border-width: 4px;
+        border-style: double;
+      }
+
 
     </style>
 

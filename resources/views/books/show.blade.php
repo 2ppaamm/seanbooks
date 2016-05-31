@@ -1,32 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Show Book</title>
-    <meta charset='utf-8'>
-    <link href="/css/foobooks.css" type='text/css' rel='stylesheet'>
-</head>
-<body>
+@extends('layouts.master')
 
-    <header>
-        <img
-        src='http://making-the-internet.s3.amazonaws.com/laravel-foobooks-logo@2x.png'
-        style='width:300px'
-        alt='Foobooks Logo'>
-    </header>
+@section('title')
+  {{$book->title}}
+@stop
 
-    <section>
-        @if(isset($title))
-            <h1>Show book: {{ $title }}</h1>
-        @else
-            <h1>No book chosen</h1>
-        @endif
-    </section>
+@section('content')
+        <!-- Main jumbotron for info on site -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1 id = "heading">{{$book->title}}</h1>
+        <p><a class="btn btn-primary btn-lg" href="/index" role="button" id = "learn">Back to Index&raquo;</a></p>
+      </div>
+    </div>
 
-    <footer>
-        &copy; {{ date('Y') }}
-    </footer>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
-</body>
-</html>
+    <div class="container">
+      <!-- Column of book summaries -->
+      <div class="row">
+        <div class="col-md-4">
+          <p><img id = "cover" alt = "Cover image" src = "{{$book->cover}}" /></p>
+        </div>
+        <div class = 'col-md-8'>
+          <p>{{$book->synopsis}}</p>
+        </div>
+        @foreach ($chapters as $chapter)
+        <div class='col-md-8'>
+            <h3><a href = '/chapters/{{$chapter->id}}'>{{$chapter->name}}</a></h3>
+        </div>
+        @endforeach
+      </div>
+      <hr>
+@stop

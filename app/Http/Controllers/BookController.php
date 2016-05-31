@@ -8,6 +8,8 @@ use Foobooks\Http\Requests;
 
 use Foobooks\Book;
 
+use Foobooks\Chapter;
+
 use Illuminate\Auth\AuthManager;
 
 use Auth;
@@ -37,8 +39,15 @@ class BookController extends Controller
     /**
      * Responds to requests to GET /books/show/{id}
      */
-	public function getShow($title = null) {
-    	return view('books.show')->with('title', $title);
+	public function getBook($id = null) {
+		$book = Book::whereId($id)->first();
+		$chapters = Chapter::where('book_id', '=', $id)->get();
+    	return view('books.show')->with(compact('book', 'chapters'));
+	}
+
+	public function getChapter($id = null) {
+		$chapter = Chapter::whereId($id)->first();
+    	return view('books.chapter')->with(compact('chapter'));
 	}
 
     /**
@@ -84,7 +93,7 @@ class BookController extends Controller
 	    );
 
 	    // Then you'd give the user some sort of confirmation:
-	    return 'Process adding new book: '.$title;
+	    return redirect('/index');
 	}
 
     public function getAdd() {
@@ -124,6 +133,6 @@ class BookController extends Controller
 	    );
 
 	    // Then you'd give the user some sort of confirmation:
-	    return 'Chapter successfully added.';
+	    return redirect('/books/' . $book_id);
 	}
 }	
