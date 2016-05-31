@@ -38,7 +38,7 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">Sean's Laravel 5</div>
+                <div class="title"><a href = '/index'>Welcome to Seanbooks</a></div>
             </div>
         </div>
     </body>
