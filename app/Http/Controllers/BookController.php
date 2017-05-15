@@ -27,9 +27,9 @@ class BookController extends Controller
 	    	$userid = $user->id;
 	    	$books = Book::where('user_id', '=', $userid)->get();	
     	} else {
-    		$books = Book::all();
+    		$books = Book::with("user")->get();
     	}
-        return view('books.index')->with(compact('books'));
+        return response()->json($books);
     }
 
     public function getAbout() {

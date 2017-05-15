@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::get('/practice', function() {
 
     $data = Array('foo' => 'bar');
@@ -25,6 +21,23 @@ Route::get('/practice', function() {
 
     return 'Practice';
 
+});
+
+Route::get('/customers',function(){
+    $faker = Faker\Factory::create();
+
+    $limit = 10;
+
+    for ($i = 0; $i < $limit; $i++) {
+        $faker->name . ', Email Address: ' . $faker->unique()->email . ', Contact No' . $faker->phoneNumber . '<br>';
+    }
+});
+
+Route::get('/auth0/callback', '\Auth0\Login\Auth0Controller@callback');
+
+Route::get('/logout', function() {
+    Auth::logout();
+    return Redirect::home();
 });
 
 /*
@@ -43,6 +56,7 @@ Route::get('chapters/{id}', 'BookController@getChapter');
 */
 Route::get('about', 'BookController@getAbout');
 Route::get('index', 'BookController@getIndex');
+Route::get('/', 'BookController@getIndex');
 
 Route::resource('tag', 'TagController');
 
