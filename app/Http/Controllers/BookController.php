@@ -5,31 +5,36 @@ namespace Foobooks\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Foobooks\Http\Requests;
-
+use Foobooks\Http\Requests\CreateBookRequest;
 use Foobooks\Book;
 
 use Foobooks\Chapter;
+use Foobooks\User;
 
 use Illuminate\Auth\AuthManager;
-
+use Auth0;
 use Auth;
 
 use DB;
 
 class BookController extends Controller
 {
+    public function __construct()
+    {
+    	Auth::login(User::find(1));
+// 		$this->middleware('auth0.jwt');
+    }
     /**
     * Responds to requests to GET /index
     */
     public function getIndex() {
     	$user = Auth::user();
     	if($user) {
-	    	$userid = $user->id;
-	    	$books = Book::where('user_id', '=', $userid)->get();	
-    	} else {
-    		$books = Book::with("user")->get();
     	}
-        return response()->json($books);
+   		$books = Book::with('author')->wherePrivate(False)->get();
+   		$mybooks = $user->books;
+    	return response()->json(['user'=>$user,'books'=>$books, 'mybooks'=>$mybooks],200);
+//        return view('books.index')->with(compact('books'));
     }
 
     public function getAbout() {
@@ -40,37 +45,33 @@ class BookController extends Controller
      * Responds to requests to GET /books/show/{id}
      */
 	public function getBook($id = null) {
-		$book = Book::whereId($id)->first();
-		$chapters = Chapter::where('book_id', '=', $id)->get();
-    	return view('books.show')->with(compact('book', 'chapters'));
+		$book = Book::whereId($id)->with('chapters')->get();
+    	return response()->json(['book'=>$book],200);
+//    	return view('books.show')->with(compact('book', 'chapters'));
 	}
 
 	public function getChapter($id = null) {
 		$chapter = Chapter::whereId($id)->first();
     	return view('books.chapter')->with(compact('chapter'));
+    	return response()->json(['book'=>$book],200);
 	}
 
     /**
      * Responds to requests to GET /books/create
      */
-    public function getCreate() {
+/*    public function getCreate() {
         if(!\Auth::check()) {
         	\Session::flash('message', 'You have to be logged in to create a new book');
         	return redirect('/login');
         }
         return view('books.create');
     }
-
+*/
 	/**
 	 * Responds to requests to POST /books/create
 	 */
-	public function postCreate(Request $request) {
+	public function postCreate(CreateBookRequest $request) {
 
-	    // Validate the request data
-	    $this->validate($request, [
-	        'title' => 'required|min:3',
-	    ]);
-	    
 	    // If the code makes it here, you can assume the validation passed
 	    $title = $request->input('title');
 	    $cover = $request->input('cover');
@@ -84,7 +85,7 @@ class BookController extends Controller
 			$synopsis = "None";
 		}
 	    // Code would go here to add the book to the database
-	    DB::table('books')->insert(
+	    $book = Book::updateOrCreate(
 	    		['title' => $title, 
 	    		'cover' => $cover,
 	    		'synopsis' => $synopsis,
@@ -93,7 +94,7 @@ class BookController extends Controller
 	    );
 
 	    // Then you'd give the user some sort of confirmation:
-	    return redirect('/index');
+    	return response()->json(['book'=>$book],200);
 	}
 
     public function getAdd() {
